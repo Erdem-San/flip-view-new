@@ -3,14 +3,15 @@
   "id": "bcc50eeb-f7c0-4c98-90bd-e2d8edb8bd3c",
   "name": "FlipView Widget",
   "width": {
-    "defaultWidth": 300,
+    "defaultWidth": 480,
     "allowStretch": true
   },
   "height": {
-    "defaultHeight": 150
+    "defaultHeight": 480
   },
   "installation": {
-    "autoAddToSite": true
+    "autoAddToSite": true,
+    "essential": false
   }
 }
 

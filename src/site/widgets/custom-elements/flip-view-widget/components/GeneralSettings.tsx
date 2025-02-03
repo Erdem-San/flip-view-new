@@ -40,7 +40,7 @@ const GeneralSettings: FC<GeneralSettingsProps> = ({
   return (
     <SidePanel.Section title="General Settings">
       <SidePanel.Field>
-        <FormField label="Before Image">
+        <FormField label="Left image">
           {!isLeftLoading ? (
             <ImageUploader
               imageUrl={leftImage}
@@ -57,7 +57,7 @@ const GeneralSettings: FC<GeneralSettingsProps> = ({
         </FormField>
       </SidePanel.Field>
       <SidePanel.Field>
-        <FormField label="After Image">
+        <FormField label="Right image">
           {!isRightLoading ? (
             <ImageUploader
               imageUrl={rightImage}

@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { dashboard } from '@wix/dashboard';
+import beforeAfterIcon from './before-after-icon.png';
 import {
   Button,
   EmptyState,
@@ -10,44 +10,47 @@ import {
 } from '@wix/design-system';
 import '@wix/design-system/styles.global.css';
 import * as Icons from '@wix/wix-ui-icons-common';
-import wixLogo from './wix_logo.svg';
+import { appInstances } from "@wix/app-management";
+async function getAppInstance() {
+  const response = await appInstances.getAppInstance();
+  console.log(response)
+  return response
+}
+let editorHref="https://manage.wix.com/editor/"+(await getAppInstance())?.site?.siteId;
 
 const Index: FC = () => {
+  getAppInstance() 
   return (
     <WixDesignSystemProvider features={{ newColorsBranding: true }}>
       <Page>
         <Page.Header
-          title="Dashboard Page"
+          title="FlipView Dashboard Page"
           subtitle="Add management capabilities to your app."
           actionsBar={
             <Button
-              onClick={() => {
-                dashboard.showToast({
-                  message: 'Your first toast message!',
-                });
-              }}
+              onClick={() => window.open(editorHref, '_blank')}
               prefixIcon={<Icons.GetStarted />}
             >
-              Show a toast
+              Go to Editor
             </Button>
           }
         />
         <Page.Content>
           <EmptyState
             image={
-              <Image fit="contain" height="100px" src={wixLogo} transparent />
+              <Image borderRadius={'8px'} width="100px" src={beforeAfterIcon} transparent />
             }
-            title="Start editing this dashboard page"
-            subtitle="Learn how to work with dashboard pages and how to add functionality to them using Wix APIs."
+            title="Start editing FlipView app"
+            subtitle="Learn how to work with FlipView app and how to add functionality to them using on editor."
             theme="page"
           >
             <TextButton
               as="a"
-              href="https://dev.wix.com/docs/build-apps/develop-your-app/frameworks/wix-cli/supported-extensions/dashboard-extensions/dashboard-pages/add-dashboard-page-extensions-with-the-cli#add-dashboard-page-extensions-with-the-cli"
+              href={editorHref}
               target="_blank"
               prefixIcon={<Icons.ExternalLink />}
             >
-              Dashboard pages documentation
+              Go to Editor
             </TextButton>
           </EmptyState>
         </Page.Content>

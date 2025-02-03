@@ -91,7 +91,7 @@ const LabelSettings: FC<LabelSettingsProps> = ({
             </FieldSet>
           </SidePanel.Field>
           <SidePanel.Field>
-            <FieldSet gap="small" legend="Label Size" columns="auto 82px">
+            <FieldSet gap="small" legend="Label size" columns="auto 82px">
               <Slider
                 onChange={(value: number | number[]) => onLabelSizeChange(Number(value))}
                 min={0.1}

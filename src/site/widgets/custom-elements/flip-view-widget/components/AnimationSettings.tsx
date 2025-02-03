@@ -23,7 +23,7 @@ const AnimationSettings: FC<AnimationSettingsProps> = ({
     <SidePanel.Section title="Animation Settings">
       <SidePanel.Field>
         <ListItem
-          title="Enable Animation"
+          title="Enable animation"
           subtitle=""
           checked={isAnimationEnabled}
           onChange={onAnimationEnabledChange}
@@ -33,7 +33,7 @@ const AnimationSettings: FC<AnimationSettingsProps> = ({
         <>
           <SidePanel.Field>
             <ListItem
-              title="Animation Loop"
+              title="Animation loop"
               subtitle=""
               checked={isAnimationLoop}
               onChange={onAnimationLoopChange}

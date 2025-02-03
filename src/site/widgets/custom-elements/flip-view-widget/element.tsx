@@ -51,7 +51,7 @@ const CustomElement: FC<Props> = (props) => {
   const positionLeft = "0px!important";
   const handleStyleColor = props.handleColor || '#FFFF';
   const labelKey = props.labelPosition || 'top';
-  const labelPosition = props.labelPositionValue + "%" || 4 + "%";
+  const labelPosition = (props.labelPositionValue !== undefined ? props.labelPositionValue + "%" : "4%");
   const showLabel = !props.showLabel || props.showLabel===null ? 'none' : '';
   
   const { position, containerRef } = useCompareSliderAnimation(enableAnimation, animationLoop, animationSpeed);
@@ -152,7 +152,7 @@ const CustomElement: FC<Props> = (props) => {
     color: `${props.labelColor || '#FFFF'}`,
     opacity: labelOpacity,
     border: '2px solid '+`${props.labelColor || '#FFFF'}`,
-    borderRadius: `${props.labelCornerRadius || 8}px`,
+    borderRadius: `${props.labelCornerRadius}px`,
     backdropFilter: 'blur(0.25rem) saturate(180%) contrast(80%) brightness(120%)',
     WebkitBackdropFilter: 'blur(0.25rem) saturate(180%) contrast(80%) brightness(120%)',
     transition: 'opacity 0.25s ease-in-out',
