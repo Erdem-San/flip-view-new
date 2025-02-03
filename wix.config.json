@@ -1,0 +1,5 @@
+{
+  "$schema": "https://dev.wix.com/wix-cli/schemas/wix-config.json",
+  "appId": "becc2dbe-e635-412f-9579-52717fec076f",
+  "projectId": "flip-view"
+}
