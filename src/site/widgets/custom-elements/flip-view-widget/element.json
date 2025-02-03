@@ -1,0 +1,16 @@
+{
+  "$schema": "https://dev.wix.com/wix-cli/schemas/custom-element.json",
+  "id": "bcc50eeb-f7c0-4c98-90bd-e2d8edb8bd3c",
+  "name": "FlipView Widget",
+  "width": {
+    "defaultWidth": 300,
+    "allowStretch": true
+  },
+  "height": {
+    "defaultHeight": 150
+  },
+  "installation": {
+    "autoAddToSite": true
+  }
+}
+

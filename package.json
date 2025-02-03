@@ -3,14 +3,26 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@wix/app-management": "^1.0.55",
     "@wix/dashboard": "^1.3.25",
-    "@wix/design-system": "^1.0.0",
-    "@wix/wix-ui-icons-common": "^3.0.0"
+    "@wix/design-system": "^1.157.0",
+    "@wix/editor": "^1.348.0",
+    "@wix/media": "^1.0.144",
+    "@wix/sdk": "^1.15.9",
+    "@wix/wix-ui-icons-common": "^3.0.0",
+    "axios": "^1.7.9",
+    "browser-image-compression": "^2.0.2",
+    "buffer": "^6.0.3",
+    "mime-types": "^2.1.35",
+    "react-compare-slider": "^3.1.0",
+    "react-to-webcomponent": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
     "@wix/cli": "^1.0.0",
     "@wix/cli-app": "^1.0.0",
+    "prettier": "^3.4.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "typescript": "^5.6.3"
