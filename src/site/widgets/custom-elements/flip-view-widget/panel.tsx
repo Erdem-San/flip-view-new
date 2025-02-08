@@ -11,16 +11,12 @@ import HandleSettings from './components/HandleSettings';
 import AnimationSettings from './components/AnimationSettings';
 import LabelSettings from './components/LabelSettings';
 import MobileSettings from './components/MobileSettings';
-import { appInstances } from "@wix/app-management";
-async function getAppInstance() {
-  const response = await appInstances.getAppInstance();
-  console.log(response)
-}
-
 // @ts-ignore
 import mime from "mime-types";
 
+
 const Panel: FC = () => {
+  
   const [valueLabel, setValueLabel] = useState<any>(4);
   const [valueHandle, setValueHandle] = useState<any>(25);
   const [iconSize, setIconSize] = useState<number>(15);
@@ -53,8 +49,7 @@ const Panel: FC = () => {
   const [hideOnDesktop, setHideOnDesktop] = useState(false);
   const [mobileBorderRadius, setMobileBorderRadius] = useState<number>(0);
   const [showMobileSettings, setShowMobileSettings] = useState(false);
-  const defaultIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='117' height='183' viewBox='0 0 117 183' fill='none'%3E%3Crect x='0' y='0' width='24' height='183' rx='12' fill='black'/%3E%3Crect x='46' y='0' width='25' height='183' rx='12.5' fill='black'/%3E%3Crect x='93' y='0' width='24' height='183' rx='12' fill='black'/%3E%3C/svg%3E";
-
+  
   useEffect(() => {
     widget.getProp('left-image').then(image => setLeftImage(image || ''));
     widget.getProp('right-image').then(image => setRightImage(image || ''));

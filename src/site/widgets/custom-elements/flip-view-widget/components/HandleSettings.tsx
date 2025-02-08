@@ -59,7 +59,7 @@ const HandleSettings: FC<HandleSettingsProps> = ({
               />
             ) : (
               <Box align="center" marginTop="SP2">
-                <Loader size="small" />
+                <Loader size="small" text="Icon is uploading..."/>
               </Box>
             )}
             </FormField>

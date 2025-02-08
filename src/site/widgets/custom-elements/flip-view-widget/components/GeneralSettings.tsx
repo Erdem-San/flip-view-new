@@ -51,7 +51,7 @@ const GeneralSettings: FC<GeneralSettingsProps> = ({
             />
           ) : (
             <Box align="center" marginTop="SP2">
-              <Loader size="small" />
+              <Loader size="small" text="image is uploading..."/>
             </Box>
           )}
         </FormField>
@@ -68,7 +68,7 @@ const GeneralSettings: FC<GeneralSettingsProps> = ({
             />
           ) : (
             <Box align="center" marginTop="SP2">
-              <Loader size="small" />
+              <Loader size="small" text="image is uploading..."/>
             </Box>
           )}
         </FormField>

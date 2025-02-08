@@ -17,6 +17,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ imageUrl, onImageUpload, 
       {({ openFileUploadDialog }) => (
         <ImageViewer
           onAddImage={openFileUploadDialog}
+          showUpdateButton={false}
           imageUrl={imageUrl}
           onRemoveImage={onRemoveImage}
         />

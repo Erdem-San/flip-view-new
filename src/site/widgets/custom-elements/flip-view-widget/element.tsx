@@ -3,6 +3,27 @@ import ReactDOM from "react-dom";
 import reactToWebComponent from "react-to-webcomponent";
 import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slider";
 import useCompareSliderAnimation from "./hook/useCompareSliderAnimation.js"; // Hook'u import et
+import UpgradePlan from "./components/UpgradePlan";
+import { httpClient } from "@wix/essentials";
+
+async function fetchAppInstanceData() {
+  try {
+    const response = await httpClient.fetchWithAuth(
+      // URL'deki "get-app-instances" -> "get-app-instance" olarak düzeltildi
+      `${import.meta.env.BASE_API_URL}/get-app-instances`
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.log("error fetching data:", error);
+    throw error; // Mutation/Query için hata fırlat
+  }
+}
+
 
 interface Props {
   displayName: string;
@@ -34,14 +55,18 @@ interface Props {
   mobileBorderRadius: number;
   showMobileSettings: boolean;
 }
-
+//https://www.wix.com/apps/upgrade/APPIDHERE?appInstanceId=INSTANCEIDHERE
 const CustomElement: FC<Props> = (props) => {
 
-  const defaultIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='117' height='183' viewBox='0 0 117 183' fill='none'%3E%3Crect x='0' y='0' width='24' height='183' rx='12' fill='black'/%3E%3Crect x='46' y='0' width='25' height='183' rx='12.5' fill='black'/%3E%3Crect x='93' y='0' width='24' height='183' rx='12' fill='black'/%3E%3C/svg%3E";
-  const defaultLeftImage = "https://static.wixstatic.com/media/19eb0b_ec9250c40e774297b1b7eb5578b22dac~mv2.png";
-  const defaultRightImage = "https://static.wixstatic.com/media/19eb0b_f68880d2f60d4663a851dce0961dae3b~mv2.png";
+  const [widgetId] = useState(() => `flip-view-${Math.random().toString(36).substr(2, 9)}`);
+
+  const defaultIcon = "https://static.wixstatic.com/shapes/19eb0b_a3e37d713fdb4d98aeee701c132048bf.svg";
+  const defaultLeftImage = "https://static.wixstatic.com/media/19eb0b_d133307a66484c7baf3e702c3bb8923f~mv2.png";
+  const defaultRightImage = "https://static.wixstatic.com/media/19eb0b_e1eda2c08b2d44cbbe01acd9dcb4ec28~mv2.png";
 
   const [labelOpacity, setLabelOpacity] = useState(1);
+  const [appInstanceStatus, setAppInstanceStatus] = useState(false);
+  const [appInstanceId, setAppInstanceId] = useState();
   
   const enableAnimation = props.enableAnimation || false;
   const animationLoop = props.animationLoop || false;
@@ -57,47 +82,61 @@ const CustomElement: FC<Props> = (props) => {
   const { position, containerRef } = useCompareSliderAnimation(enableAnimation, animationLoop, animationSpeed);
 
   useEffect(() => {
+    fetchAppInstanceData().then( async(result)=>{
+      console.log(result)
+      await setAppInstanceId(result.instanceId)
+      await setAppInstanceStatus(result.isFree)
+    })
+  }, []);
+
+  useEffect(() => {
+    // Get the parent flip-view-widget[data-widget-id="${widgetId}"] element
+    const parentElement = containerRef.current?.closest('flip-view-widget');
+    if (parentElement) {
+      parentElement.setAttribute('data-widget-id', widgetId);
+    }
+
     const style = document.createElement('style');
     style.innerHTML = `
     
       ${props.showMobileSettings ? 
         `@media screen and (max-width: 729px) {
-          flip-view-widget [data-rcs="root"] {
+          flip-view-widget[data-widget-id="${widgetId}"] [data-rcs="root"] {
             border-radius: ${props.mobileBorderRadius}px;
           }  
         }
           
         @media screen and (min-width: 729px) {
-          flip-view-widget {
+          flip-view-widget[data-widget-id="${widgetId}"] {
             display: ${props.hideOnDesktop ? 'none' : 'block'} !important;
           }              
 
-          flip-view-widget [data-rcs="root"] {
+          flip-view-widget[data-widget-id="${widgetId}"] [data-rcs="root"] {
               border-radius: ${borderRadius};
             }
           }
           `
         :
-        `flip-view-widget [data-rcs="root"] {
+        `flip-view-widget[data-widget-id="${widgetId}"] [data-rcs="root"] {
             border-radius: ${borderRadius};
           }`
       }
 
       
-      flip-view-widget [data-rcs="clip-item"] {
+      flip-view-widget[data-widget-id="${widgetId}"] [data-rcs="clip-item"] {
         left: ${positionLeft};
       }
       
-      flip-view-widget .__rcs-handle-line, 
-      flip-view-widget .__rcs-handle-button {
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-line, 
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-button {
         color: ${handleStyleColor};
       }
       
-      flip-view-widget .__rcs-handle-arrow {
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-arrow {
       }
 
 
-      flip-view-widget .__rcs-handle-button {
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-button {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -118,11 +157,11 @@ const CustomElement: FC<Props> = (props) => {
         box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 4px !important;
       }
 
-      flip-view-widget .__rcs-handle-arrow {
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-arrow {
         display: none !important;
       }
 
-      flip-view-widget .__rcs-handle-button::before {
+      flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-button::before {
         content: '';
         width: ${props.iconSize || 15}px;
         height: ${props.iconSize || 15}px;
@@ -132,7 +171,7 @@ const CustomElement: FC<Props> = (props) => {
         background-size: contain;
       } 
 
-       flip-view-widget .__rcs-handle-button {
+       flip-view-widget[data-widget-id="${widgetId}"] .__rcs-handle-button {
         display: ${ props.showHandleButton===null || props.showHandleButton===undefined ? '' : props.showHandleButton ? '' : 'none!important'};
       }
 
@@ -141,9 +180,12 @@ const CustomElement: FC<Props> = (props) => {
     document.head.appendChild(style);
 
     return () => {
+      if (parentElement) {
+        parentElement.removeAttribute('data-widget-id');
+      }
       document.head.removeChild(style);
     };
-  }, []);
+  }, [widgetId]);
 
   const labelStyle: React.CSSProperties = {
     fontSize: `${props.labelSize + .5 || 1.1}rem`, // 2x multiplier for fontSize
@@ -161,6 +203,7 @@ const CustomElement: FC<Props> = (props) => {
 
   return (
     <div ref={containerRef}>
+      { appInstanceStatus && <UpgradePlan appInstanceId={appInstanceId}/> }
       <ReactCompareSlider
         changePositionOnHover={props.hoverPosition}
         portrait={props.isPortrait}
